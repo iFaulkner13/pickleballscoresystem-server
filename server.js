@@ -42,6 +42,17 @@ io.on('connection', (socket) => {
   console.log(`[Sync Server] Client connected: ${socket.id} (Total: ${connectedClients})`);
   io.emit('pickleball:operators-count', connectedClients);
 
+  // Relay AI tracker start/stop commands between WebApp and Python script
+  socket.on('pickleball:tracker-command', (data) => {
+    console.log(`[AI Tracker] Command received:`, data);
+    io.emit('pickleball:tracker-command', data);
+  });
+
+  // Track whether Python AI Tracker is actively connected
+  socket.on('pickleball:tracker-status', (status) => {
+    io.emit('pickleball:tracker-status', status);
+  });
+
   // 1. Send active match snapshot immediately to the connecting client
   if (latestMultiSnapshot) {
     socket.emit('pickleball:current-multi', latestMultiSnapshot);
