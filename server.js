@@ -47,7 +47,7 @@ const io = new Server(server, {
     origin: '*',
     methods: ['GET', 'POST']
   },
-  maxHttpBufferSize: 5e7 // 50MB buffer to comfortably support team media/logos
+  maxHttpBufferSize: 1e8 // Set limit to 100 MB
 });
 
 let latestMultiSnapshot = null;
